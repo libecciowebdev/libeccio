@@ -1,0 +1,13 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { AppShell } from "@/components/AppShell";
+---
+
+<BaseLayout
+  title="Services — Création & hébergement de sites de restaurant | Libeccio"
+  description="Design sur mesure, développement, réservation en ligne, photographie culinaire, SEO local et hébergement managé pour restaurants."
+  ogTitle="Nos services pour les restaurants — Libeccio"
+  ogDescription="De la direction artistique à l'hébergement managé : tout ce qu'il faut pour un site de restaurant qui convertit."
+>
+  <AppShell route="services" client:load />
+</BaseLayout>

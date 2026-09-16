@@ -1,0 +1,13 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { AppShell } from "@/components/AppShell";
+---
+
+<BaseLayout
+  title="Tarifs — Création et hébergement de site de restaurant | Libeccio"
+  description="Trois formules transparentes : Carte, Signature et Groupe. Création à partir de 1 190 € et hébergement managé à partir de 49 €/mois."
+  ogTitle="Nos tarifs — Libeccio"
+  ogDescription="Prix clairs, hébergement inclus, sans engagement caché. Choisissez la formule adaptée à votre établissement."
+>
+  <AppShell route="tarifs" client:load />
+</BaseLayout>
