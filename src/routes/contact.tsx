@@ -34,6 +34,7 @@ const infos = [
 
 function Contact() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
 
   return (
     <>
@@ -50,12 +51,46 @@ function Contact() {
         <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
           <Reveal>
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                setSent(true);
-                toast.success("Message envoyé", {
-                  description: "Nous vous répondons sous 24 h ouvrées.",
-                });
+                if (sending) return;
+
+                const form = e.currentTarget;
+                const formData = new FormData(form);
+                const payload = Object.fromEntries(formData.entries());
+                const baseUrl = import.meta.env.BASE_URL || "/";
+                const endpoint = `${baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`}api/contact`;
+
+                setSending(true);
+                setSent(false);
+
+                try {
+                  const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                  });
+
+                  const result = await response.json().catch(() => ({}));
+                  if (!response.ok) {
+                    throw new Error(result?.error || "Impossible d'envoyer le message.");
+                  }
+
+                  setSent(true);
+                  form.reset();
+                  toast.success("Message envoyé", {
+                    description: "Nous vous répondons sous 24 h ouvrées.",
+                  });
+                } catch (error) {
+                  toast.error("Envoi impossible", {
+                    description:
+                      error instanceof Error
+                        ? error.message
+                        : "Réessayez dans quelques instants.",
+                  });
+                } finally {
+                  setSending(false);
+                }
               }}
               className="glass rounded-4xl p-7 md:p-10"
             >
@@ -85,6 +120,7 @@ function Contact() {
                     </label>
                     <input
                       id={f.id}
+                      name={f.id}
                       type={f.type}
                       required
                       placeholder={f.ph}
@@ -103,6 +139,7 @@ function Contact() {
                 </label>
                 <textarea
                   id="message"
+                  name="message"
                   rows={5}
                   required
                   placeholder="Cuisine, ambiance, nombre de couverts, ce qui ne va pas avec votre site actuel…"
@@ -110,11 +147,21 @@ function Contact() {
                 />
               </div>
 
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
+
               <button
                 type="submit"
-                className="shine-on-hover mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[image:var(--gradient-primary)] px-7 py-3.5 font-semibold text-primary-foreground transition-transform duration-300 hover:scale-[1.02] sm:w-auto"
+                disabled={sending}
+                className="shine-on-hover mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[image:var(--gradient-primary)] px-7 py-3.5 font-semibold text-primary-foreground transition-transform duration-300 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
               >
-                {sent ? "Message envoyé" : "Envoyer ma demande"}
+                {sending ? "Envoi en cours…" : sent ? "Message envoyé" : "Envoyer ma demande"}
                 <Send className="h-4 w-4" />
               </button>
               <p className="mt-4 text-xs text-muted-foreground">
