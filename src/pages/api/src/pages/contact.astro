@@ -1,0 +1,13 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { AppShell } from "@/components/AppShell";
+---
+
+<BaseLayout
+  title="Contact — Parlons de votre site de restaurant | Libeccio"
+  description="Contactez Libeccio pour un devis gratuit : maquette de votre page d'accueil sous 72 h, réponse en moins de 24 h."
+  ogTitle="Contacter Libeccio"
+  ogDescription="Un atelier de 45 minutes, une maquette offerte, une réponse sous 24 h ouvrées."
+>
+  <AppShell route="contact" client:load />
+</BaseLayout>

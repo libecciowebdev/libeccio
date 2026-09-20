@@ -1,0 +1,13 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { AppShell } from "@/components/AppShell";
+---
+
+<BaseLayout
+  title="Vitrine — Votre restaurant pourrait ressembler à ça | Libeccio"
+  description="Découvrez L'Oiseau Bleu, un site de restaurant créé par Libeccio : design premium, animations fluides et réservation en ligne."
+  ogTitle="Votre restaurant pourrait ressembler à ça — Libeccio"
+  ogDescription="L'Oiseau Bleu : un site de restaurant signé Libeccio, rapide, animé et pensé pour la réservation."
+>
+  <AppShell route="vitrine" client:load />
+</BaseLayout>

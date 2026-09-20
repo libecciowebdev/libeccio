@@ -1,0 +1,13 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { AppShell } from "@/components/AppShell";
+---
+
+<BaseLayout
+  title="Libeccio — Sites web & hébergement pour restaurants"
+  description="Studio tech spécialisé restauration : création de sites web sur mesure, réservation en ligne et hébergement performant. Mise en ligne en 14 jours."
+  ogTitle="Libeccio — Sites web pour restaurants"
+  ogDescription="Design premium, animations fluides, hébergement inclus. Le site qui remplit votre salle."
+>
+  <AppShell route="home" client:load />
+</BaseLayout>
